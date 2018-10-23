@@ -2,6 +2,9 @@ library("readr")
 library("dplyr")
 library("tidyr")
 
+# Obdobje: 2015-2017
+# Tip terminske obrestne mere: 3x6
+
 # Uvoz podatkov
 
 eu15 <- read_csv("EURIBOR_2015.csv")
@@ -31,7 +34,14 @@ eu17 <- t(eu17)
 colnames(eu17) <- c("1w", "2w", "1m", "2m", "3m", "6m", "9m", "12m")
 eu17 <- eu17[-1,]
 
-
+mesec <- 1
+k <- 2
+v <- 1
+while (mesec < 13) {
+  if (as.numeric(unlist(strsplit(colnames(eu15)[k], split = "/"))[2]) != mesec) {v <- c(v)};
+  if (as.numeric(unlist(strsplit(colnames(eu15)[k], split = "/"))[2]) == mesec) {mesec <- mesec+1; v <- c(v, k)};
+  k <- k+1
+}
 
 
 #mesec = 1
