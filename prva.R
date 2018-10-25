@@ -68,10 +68,12 @@ X <- eu15[,5:6]
 Y <- eu16[,5:6]
 Z <- eu17[,5:6]
 XYZ <- rbind(X, Y, Z)
+XYZ <- type.convert(XYZ, "matrix")
 
 graf <- ts.plot(ts(data=XYZ, start=c(2015,1,2), end=c(2017,12,1), frequency = 12), gpars=list(xlab="Time", ylab="%"), col=c("red", "blue"));
         title(main="Euribor"); 
-        legend("topleft", legend = c("3m", "6m"), col=c("red", "blue"), lty = c(1,1))
+        legend("topright", legend = c("3m", "6m"), col=c("red", "blue"), lty = c(1,1))
+
 
 
 
