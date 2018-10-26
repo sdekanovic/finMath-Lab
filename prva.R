@@ -68,12 +68,21 @@ X <- eu15[,5:6]
 Y <- eu16[,5:6]
 Z <- eu17[,5:6]
 XYZ <- rbind(X, Y, Z)
-XYZ <- type.convert(XYZ, "matrix")
+XYZ <- data.frame(XYZ)
 
-graf <- ts.plot(ts(data=XYZ, start=c(2015,1,2), end=c(2017,12,1), frequency = 12), gpars=list(xlab="Time", ylab="%"), col=c("red", "blue"));
+graf <- ts.plot(ts(data=as.matrix(XYZ), start=c(2015,1,2), end=c(2017,12,1), frequency = 12), gpars=list(xlab="Time", ylab="%"), col=c("red", "blue"));
         title(main="Euribor"); 
         legend("topright", legend = c("3m", "6m"), col=c("red", "blue"), lty = c(1,1))
 
+# 2.naloga
+
+# Izbrani datumi: 2.1.2015, 1.12.2015 (6 se ustavi in naraste za kratek čas), 1.2.2017 (6 strmo pade in naraste)
+
+m <- rbind(eu15[1,], eu15[12,], eu17[2,])
+m <- t(m)
+row.names(m) <- c(0.23, 0.46, 1, 2, 3, 6, 9, 12)
+m <- data.frame(m)
+graf2 <- ts.plot(ts(data=as.matrix(m), start=c(0.23)), gpars=list(xlab="Dospetje", ylab="%"), type = "b", col=c("red", "blue", "green"));
 
 
 
