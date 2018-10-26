@@ -76,6 +76,7 @@ graf <- ts.plot(ts(data=as.matrix(XYZ), start=c(2015,1,2), end=c(2017,12,1), fre
 
 # 2.naloga
 
+<<<<<<< HEAD
 # Izbrani datumi: 2.1.2015, 1.12.2015 (6 se ustavi in naraste za kratek čas), 1.2.2017 (6 strmo pade in naraste)
 
 m <- rbind(eu15[1,], eu15[12,], eu17[2,])
@@ -84,5 +85,30 @@ row.names(m) <- c(0.23, 0.46, 1, 2, 3, 6, 9, 12)
 m <- data.frame(m)
 graf2 <- ts.plot(ts(data=as.matrix(m), start=c(0.23)), gpars=list(xlab="Dospetje", ylab="%"), type = "b", col=c("red", "blue", "green"));
 
+=======
+podatki <- as.data.frame(t(eu15[1,]))
+mesci <- c(0.23, 0.46, 1, 2, 3, 6, 9, 12)
+podatki["01/12/2015"] <- as.data.frame(t(eu15[12,]))
+podatki["01/02/2017"] <- as.data.frame(t(eu17[2,]))
+podatki["Dospetje"] <- mesci
+
+graf2 <- ggplot() + geom_point(data = podatki, aes(x = podatki$Dospetje, y = podatki$`02/01/2015`),
+                               colour = "dodgerblue", size = 2) + 
+  geom_line(data = podatki, aes(y = podatki$`02/01/2015`, x = podatki$Dospetje, group = 1), colour = "dodgerblue") +
+  geom_text(aes(y = 3, x=11.0), label = "2/1/2015", colour = "dodgerblue") +
+  geom_point(data = podatki, aes(x = podatki$Dospetje, y = podatki$`01/12/2015`),
+             colour = "firebrick", size = 2) +
+  geom_line(data = podatki, aes(y = podatki$`01/12/2015`, x = podatki$Dospetje, group = 1), colour = "firebrick") + 
+  geom_text(aes(y=2, x = 11.0), label = "1/12/2015", colour = "firebrick") + 
+  geom_point(data = podatki, aes(x = podatki$Dospetje, y = podatki$`01/02/2017`),
+             colour = "springgreen", size = 2) + 
+  geom_line(data = podatki, aes(y = podatki$`01/02/2017`, x = podatki$Dospetje, group = 1), colour = "springgreen") +
+  geom_text(aes(y = 1, x = 11.0), label = "1/2/2017", colour = "springgreen") +
+  ggtitle("Časovna struktura Euribor") + labs(x = "Dospetje (mesec)", y = "%")
+
+
+
+# 3.naloga
+>>>>>>> 464bcd650d354945367f38528e2f499105cf8c6c
 
 
