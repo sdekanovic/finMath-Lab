@@ -102,6 +102,110 @@ graf2 <- ggplot() + geom_point(data = podatki, aes(x = podatki$Dospetje, y = pod
 
 
 # 3.naloga
+<<<<<<< HEAD
+=======
+
+# Funkcija za izracun terminske obrestne mere v tabeli X
+
+termX <- function(m){
+  matrika <- matrix(c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), nrow = 12, ncol = 1)
+  matrika <- as.data.frame(matrika)
+  for (i in m){
+    x <- 4*((1 + 0.75 * X[i, 2])/(1 + 0.5*X[i, 1]) - 1)
+    matrika[i, ] <- x
+  }
+  
+  return(matrika)
+}
+
+# x <- c(1:12)
+
+# Funkcija za izracun terminske obrestne mere v tabeli Y
+
+termY <- function(m){
+  matrika <- matrix(c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), nrow = 12, ncol = 1)
+  matrika <- as.data.frame(matrika)
+  for (i in m){
+    x <- 4*((1 + 0.75 * Y[i, 2])/(1 + 0.5*Y[i, 1]) - 1)
+    matrika[i, ] <- x
+  }
+  
+  return(matrika)
+}
+
+# Funkcija za izracun terminske obrestne mere v tabeli Z
+
+termZ <- function(m){
+  matrika <- matrix(c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), nrow = 12, ncol = 1)
+  matrika <- as.data.frame(matrika)
+  for (i in m){
+    x <- 4*((1 + 0.75 * Z[i, 2])/(1 + 0.5*Z[i, 1]) - 1)
+    matrika[i, ] <- x
+  }
+  
+  return(matrika)
+}
+
+x = c(1:12)
+
+# 3 b)
+
+# Leto 2015
+
+m2015 <- termX(x)
+tb2015 <- eu15[5]
+tb2015["napoved3m"] <- termX(x)
+tb2015[1,2] <- NA
+tb2015[2,2] <- NA
+tb2015[3,2] <- NA
+tb2015[4,2] <- NA
+tb2015[5,2] <- NA
+tb2015[6,2] <- NA
+tb2015[7,2] <- m2015[1,1]
+tb2015[8,2] <- m2015[2,1]
+tb2015[9,2] <- m2015[3,1]
+tb2015[10,2] <- m2015[4,1]
+tb2015[11,2] <- m2015[5,1]
+tb2015[12,2] <- m2015[6,1]
+
+# Leto 2016
+
+m2016 <- termY(x)
+tb2016 <- eu16[5]
+tb2016["napoved3m"] <- termY(x)
+tb2016[1,2] <- NA
+tb2016[2,2] <- NA
+tb2016[3,2] <- NA
+tb2016[4,2] <- NA
+tb2016[5,2] <- NA
+tb2016[6,2] <- NA
+tb2016[7,2] <- m2016[1,1]
+tb2016[8,2] <- m2016[2,1]
+tb2016[9,2] <- m2016[3,1]
+tb2016[10,2] <- m2016[4,1]
+tb2016[11,2] <- m2016[5,1]
+tb2016[12,2] <- m2016[6,1]
+
+# Leto 2017
+
+m2017 <- termZ(x)
+tb2017 <- eu17[5]
+tb2017["napoved3m"] <- termZ(x)
+tb2017[1,2] <- NA
+tb2017[2,2] <- NA
+tb2017[3,2] <- NA
+tb2017[4,2] <- NA
+tb2017[5,2] <- NA
+tb2017[6,2] <- NA
+tb2017[7,2] <- m2017[1,1]
+tb2017[8,2] <- m2017[2,1]
+tb2017[9,2] <- m2017[3,1]
+tb2017[10,2] <- m2017[4,1]
+tb2017[11,2] <- m2017[5,1]
+tb2017[12,2] <- m2017[6,1]
+
+tabela <- rbind(tb2015, tb2016, tb2017)
+>>>>>>> 1efae44a806f047fb6c5698d0105e20032af12c9
 
 # Funkcija za izracun terminske obrestne mere v tabeli X
 
