@@ -1,7 +1,7 @@
 library(actuar)
 library(readr)
 
-# 1.naloga: Porazdelitev individualnih škodnih zahtevkov
+# 1.naloga: Porazdelitev individualnih ?kodnih zahtevkov
 
 # S = sum Yi from 1 to N
 # E(S) = E(E(S|N)) = E(N)E(Y)
@@ -20,7 +20,7 @@ legend("topright", legend = "Weibullova porazdelitev", col = "red", lty = 1)
 
 stepfun(1:194, vzorec, f = 0.2)
 curve(pweibull(x, shape = par1, scale = par2), from = 0, to = max(vzorec), col = "blue", add = TRUE)
-legend("middle", legend = c("empiricna porazdelitev", "weibullova porazdelitev"), col = c("black", "blue"), )
+legend("middle", legend = c("empiricna porazdelitev", "weibullova porazdelitev"), col = c("black", "blue"))
 
 WB <- pweibull(vzorec, shape = par1, scale = par2)
 BIN <- rbinom(n = 20, size = 195, prob = 0.5)
@@ -28,7 +28,7 @@ BIN <- rbinom(n = 20, size = 195, prob = 0.5)
 upanje <- mean(BIN)*mean(WB)
 disperzija <- var(WB)*mean(BIN) + (var(WB) + mean(WB)^2)*var(BIN)
 
-# 2.naloga: Doloèanje porazdelitve kumulativne škode s Panjerjevim algoritmom
+# 2.naloga: Dolo?anje porazdelitve kumulativne ?kode s Panjerjevim algoritmom
 
 h <- 0.25
 n <- 26
