@@ -18,47 +18,73 @@ histogram <- hist(vzorec, main = "Histogram odskodnin", xlab = "Visina odskodnin
 curve(dweibull(x, shape = par1, scale = par2), from = 0, to = max(vzorec), col="red", add = TRUE)
 legend("topright", legend = "Weibullova porazdelitev", col = "red", lty = 1)
 
-curve(pweibull(x, shape = par1, scale = par2), from = 0, to = max(vzorec), col = "blue")
+curve(pweibull(x, shape = par1, scale = par2), main = "Porazdelitvena funkcija odskodnin", from = 0, to = max(vzorec), col = "blue", xlab = "Visina odskodnine", ylab = "Porazdelitvena funkcija")
 plot(ecdf(vzorec), add = TRUE)
 legend("bottomright", legend = c("Empiricna porazdelitev", "Weibullova porazdelitev"), col = c("black", "blue"), pch = c(16, NA), lty = c(1, 1))
 
-WB <- pweibull(vzorec, shape = par1, scale = par2)
-BIN <- rbinom(n = 20, size = 195, prob = 0.5)
+# upanje weibullove
+eY <- par2 * gamma(1 + (1 / par1))
+# upanje binomske
+eBIN <- 20 * 0.5
 
-upanje <- mean(BIN)*mean(WB)
-disperzija <- var(WB)*mean(BIN) + (var(WB) + mean(WB)^2)*var(BIN)
+varY <- par2^2 * (gamma(1 + 2/par1) - gamma(1 + 1/par1)^2)
+varBIN <- 20 * 0.5 * 0.5
+
+upanje <- eY * eBIN
+disperzija <- varY * eBIN + (eY^2)*varBIN
 
 
 # 2.naloga: Dolo?anje porazdelitve kumulativne ?kode s Panjerjevim algoritmom
 
+razdalja <- function(a, b){
+      vector <- c(a)
+      while (a<b) {
+        a <- a + 0.25
+        vector <- c(vector, a)
+      }
+      return(vector)
+}
+
+verjetnosti <- function(vec) {
+  a <- rep(NA, 27)
+  for (i in (0 : 27)){
+    a[i] <- sum(vec[0:i])
+  }
+  return(a)
+}
+
+
 h <- 0.25
-n <- 26
+n <- 28
 #M <- max(vzorec)
-Y <- discretize(pweibull(x, shape = par1, scale = par2), method = c("unbiased"), lev = levweibull(x, 1), from = 0, to = n*h, step = h)
+Y <- discretize(pweibull(x, shape = par1, scale = par2), method = c("rounding"), from = 0, to = n*h, step = h)
 
-curve(pweibull(x, shape = par1, scale = par2), to = n*h, col = "blue")
-plot(stepfun(1:26, Y), pch = NA, col = "green", add = TRUE)
 
-#plot(stepfun(x, diffinv(fb)), pch = 19, add = TRUE)
+plot(xlab = "x", ylab = "Porazdelitvena funkcija", stepfun(razdalja(0, 6.5), c(0, verjetnosti(Y))),
+    col = "orange", lwd = 3, main = "Weibullova porazdelitev")
+curve(pweibull(x, shape = par1, scale = par2), to = n*h, col = "black", add = TRUE)
 
-Pan <- aggregateDist(method = "recursive", model.freq = "binomial", model.sev = Y, size = 195, prob = 0.5)
+
+Pan <- aggregateDist(method = "recursive", model.freq = "binomial", model.sev = verjetnosti(Y), size = 20, prob = 0.5)
 knots(Pan)
 upanjePan <- mean(Pan)
-disperzijaPan <- var(Pan)
+disperzijaPan <- var(knots(Pan))
 
 # 3. naloga
 
 S <- c()
 while (length(S) < 10000) {
-  N <- rbinom(n = 1, size = 195, prob = 0.5);
+  N <- rbinom(n = 1, size = 20, prob = 0.5);
   Y <- rweibull(n = N, shape = par1, scale = par2)
   S <- c(S, sum(Y))
 }
 
 upanjeMC <- mean(S)
-odklonMC <- sqrt(var(S))
+variancaMC <- var(S)
 
-plot(ecdf(S))
+plot(Pan)
+plot(ecdf(S), col = "green", add = TRUE)
+legend(1, 1, legend = c("Panjerjev algoritem", "Monte Carlo simulacija"), col = c("black", "green"), lty = c(1, 1), box.lty = 0)
 
 
 
