@@ -28,3 +28,47 @@ for (i in 1:5){
 M <- cbind(M, X, Y)
 colnames(M) <- c("S0", "S1", "S2", "S3", "S4", "S5", "Izplačilo X", "Izplačilo Y")
 
+izplacilo <- function(vrsta, W, type){
+  if (type == "call"){
+    return(max(0, vrsta[length(vrsta)] - weighted.mean(vrsta, W)))
+  }
+  else if (type == "put"){
+    return(max(weighted.mean(vrsta, W) - vrsta[length(vrsta)], 0))
+  }
+  else{
+    return(NULL)
+  }
+}
+
+# Naloga 2
+
+#narobe
+binomski <- function(S0, u, d, R, T, W, type){
+  K <- 0
+  for (i in 0:T){
+    K <- K + (u**i)*(d**(T-i))*S0*W[i+1]/(sum(W))
+  }
+  m <- ceiling((log(K) - log(S0*(d**T))) / (log(u) - log(d)))
+  n <- floor((log(K) - log(S0*(d**T))) / (log(u) - log(d)))
+  q <- (1 + R - d) / (u - d)
+  if (type == "call"){
+    vsota <- 0
+    for (i in m:T){
+      vsota <- vsota + choose(T, i)*(q**i)*(1-q)**(T-i)*(S0*(u**i)*(d**T-i) - K)
+    }
+    return(vsota / ((1 + R)**T))
+  }
+  else if (type == "put"){
+    vsota <- 0
+    for (i in 0:n){
+      vsota <- vsota + choose(T, i)*(q**i)*(1-q)**(T-i)*(K - S0*(u**i)*(d**T-i))
+    }
+    return(vsota / ((1 + R)**T))
+  }
+  else{
+    return(NULL)
+  }
+  
+}
+
+
