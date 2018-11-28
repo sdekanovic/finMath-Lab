@@ -42,33 +42,14 @@ izplacilo <- function(vrsta, W, type){
 
 # Naloga 2
 
-#narobe
 binomski <- function(S0, u, d, R, T, W, type){
-  K <- 0
-  for (i in 0:T){
-    K <- K + (u**i)*(d**(T-i))*S0*W[i+1]/(sum(W))
-  }
-  m <- ceiling((log(K) - log(S0*(d**T))) / (log(u) - log(d)))
-  n <- floor((log(K) - log(S0*(d**T))) / (log(u) - log(d)))
-  q <- (1 + R - d) / (u - d)
-  if (type == "call"){
-    vsota <- 0
-    for (i in m:T){
-      vsota <- vsota + choose(T, i)*(q**i)*(1-q)**(T-i)*(S0*(u**i)*(d**T-i) - K)
-    }
-    return(vsota / ((1 + R)**T))
-  }
-  else if (type == "put"){
-    vsota <- 0
-    for (i in 0:n){
-      vsota <- vsota + choose(T, i)*(q**i)*(1-q)**(T-i)*(K - S0*(u**i)*(d**T-i))
-    }
-    return(vsota / ((1 + R)**T))
-  }
-  else{
-    return(NULL)
-  }
+  return(NULL)
+}
+
+monte <- function(S0, u, d, R, T, W, type, N){
+  x <- c()
   
 }
+
 
 
