@@ -42,14 +42,62 @@ izplacilo <- function(vrsta, W, type){
 
 # Naloga 2
 
-binomski <- function(S0, u, d, R, T, W, type){
-  return(NULL)
+binomski <- function(S0,u,d,R,T,W,type){
+  
+  q <- (1 + R - d)/(u - d)
+  r <- hcube(rep(2,T)) - 1
+  
+  razvoji <- rowSums(r)
+  
+  P <- q^(T - razvoji)*(1 - q)^razvoji #  vektor verjetnosti
+  poti <- u^(1 - r)*d^r
+  drevo <- cbind(rep(S0, 2^T), poti)
+  vrednosti <- t(apply(drevo, 1, cumprod))
+  izplacila <- apply(vrednosti, 1, function(x) izplacilo(x, W, type))
+  
+  povprecjeQ <- sum(izplacila*P)
+  cena <- povprecjeQ/((1 + R)^T)
+  
+  return(cena)
 }
 
 monte <- function(S0, u, d, R, T, W, type, N){
-  x <- c()
   
+  poti <- matrix(nrow = N, ncol = T)
+  p <- (1 + R - d)/(u - d)
+  
+  i = 1
+  while(i <= N) {
+    vektor_0in1 <- rbinom(T,1,p)
+    poti[i, ] <- vektor_0in1
+    i <- i + 1
+  }
+  
+  razvoji <- rowSums(poti)
+  
+  P <- p^razvoji*(1 - p)^(T - razvoji) # vektor verjetnosti
+  
+  smeri <- u^(poti)*d^(1 - poti)
+  smeri <- cbind(rep(S0, nrow(poti)), smeri)
+  
+  vrednosti <- t(apply(smeri, 1, cumprod))
+  izplacila <- apply(vrednosti, 1, izplacilo, W=W, type=type)
+  
+  povprecjeQ <- sum(izplacila)/N
+  
+  cena <- povprecjeQ/((1+R)^T)
+  
+  return(cena)
 }
+
+# N = 10;100;1000
+
+monte(60, 1.05, 0.95, 0.01, 15, rep(1, 16), "put", 10)
+monte(60, 1.05, 0.95, 0.01, 15, rep(1, 16), "put", 100)
+monte(60, 1.05, 0.95, 0.01, 15, rep(1, 16), "put", 1000)
+
+# Naloga 3
+
 
 
 
