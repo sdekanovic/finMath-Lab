@@ -36,6 +36,8 @@ G <- function(vrsta, k){
 zglajena <- G(cene, 5)
 napoved <- zglajena[length(zglajena)]
 
+par(mfrow = c(2, 2))
+
 vrsta1 <- ts(cene)
 vrsta2 <- ts(zglajena)
 ts.plot(vrsta1, vrsta2, col = c("black", "red"), main = "Drsno povprečje reda 5", ylab = "$")
@@ -67,7 +69,7 @@ ts.plot(vrsta1, vrsta30, col = c("black", "red"), main = "Drsno povprečje reda 
 points(vrsta1, p = 20)
 MSE(cene, 30)
 
-# narisi skupaj grafe
+
  
 # Naloga 3: Eksponentno glajenje
 
@@ -86,6 +88,8 @@ zglajenaE <- EG(cene, alfa)
 napovedE <- zglajenaE[length(zglajenaE)]
 napovedE
 
+par(mfrow=c(1,1))
+
 vrsta1 <- ts(cene)
 vrstaE <- ts(zglajenaE)
 ts.plot(vrsta1, vrstaE, col = c("black", "red"), main = "Eksponentno glajenje", ylab = "$")
@@ -96,11 +100,11 @@ MSEa <- function(alfa){
   return(MSE(vrsta, k = 1))
 }
 
-optimize(MSEa, c(0, 1))
+optimize(MSEa, c(0.1, 0.3))
 
 alfaOpt <- optimize(MSEa, c(0, 1))
-alfaOpt <- as.double(alpha)[1]
-zglajenaE <- EG(cene, alfaOpt)
+alfaOpt <- as.double(alfaOpt)[1]
+zglajenaE <- EG(cene, 0.1)
 vrsta1 <- ts(cene)
 vrstaE <- ts(zglajenaE)
 ts.plot(vrsta1, vrstaE, col = c("black", "red"), main = "Eksponentno glajenje, minimalen MSE", ylab = "$")
