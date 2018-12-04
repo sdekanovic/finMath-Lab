@@ -98,6 +98,36 @@ monte(60, 1.05, 0.95, 0.01, 15, rep(1, 16), "put", 1000)
 
 # Naloga 3
 
+N1 = 10
+N2 = 100
+N3 = 1000
 
+n1 <- numeric(100)
+n2 <- numeric(100)
+n3 <- numeric(100)
 
+for (i in 1:100){
+  n1[i] <- monte(60, 1.05, 0.95, 0.01, 15, rep(1, 16), "put", N1)
+  n2[i] <- monte(60, 1.05, 0.95, 0.01, 15, rep(1, 16), "put", N2)
+  n3[i] <- monte(60, 1.05, 0.95, 0.01, 15, rep(1, 16), "put", N3)
+}
 
+B1 <- binomski(60, 1.05, 0.95, 0.01, 15, rep(1, 16), "put")
+
+H1 <- hist(n1, main = "Monte Carlo: N=10", xlim = c(0, 5), ylim = NULL, col = "yellow", xlab = "Premija")
+arrows(x0 = mean(n1), y0 = 0, x1 = mean(n1), y1 = 24, lty = 1, col = "green")
+arrows(x0 = mean(n1), y0 = 0, x1 = mean(n1) - sd(n1), y1 = 0, lty = 1, col = "green")
+arrows(x0 = mean(n1), y0 = 0, x1 = mean(n1) + sd(n1), y1 = 0, lty = 1, col = "green")
+arrows(x0 = B1, y= 0, x1 = B1, y1 = 24, lty = 3, col = "red")
+
+H2 <- hist(n2, main = "Monte Carlo: N=100", xlim = c(0, 5), ylim = NULL, col = "yellow", xlab = "Premija")
+arrows(x0 = mean(n2), y0 = 0, x1 = mean(n2), y1 = 35, lty = 1, col = "green")
+arrows(x0 = mean(n2), y0 = 0, x1 = mean(n2) - sd(n2), y1 = 0, lty = 1, col = "green")
+arrows(x0 = mean(n2), y0 = 0, x1 = mean(n2) + sd(n2), y1 = 0, lty = 1, col = "green")
+arrows(x0 = B1, y= 0, x1 = B1, y1 = 35, lty = 3, col = "red")
+
+H3 <- hist(n3, main = "Monte Carlo: N=1000", xlim = c(0, 5), ylim = NULL, col = "yellow", xlab = "Premija")
+arrows(x0 = mean(n3), y0 = 0, x1 = mean(n3), y1 = 30, lty = 1, col = "green")
+arrows(x0 = mean(n3), y0 = 0, x1 = mean(n3) - sd(n3), y1 = 0, lty = 1, col = "green")
+arrows(x0 = mean(n3), y0 = 0, x1 = mean(n3) + sd(n3), y1 = 0, lty = 1, col = "green")
+arrows(x0 = B1, y= 0, x1 = B1, y1 = 30, lty = 3, col = "red")
